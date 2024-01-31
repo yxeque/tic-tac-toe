@@ -64,7 +64,32 @@ class Game
     @players = [Player.new("X"), Player.new("O")]
     @current_player = @players.first
   end
+
+  def play
+    until @board.check_win(@current_player) || @board.check_draw
+      @board.display
+      puts "#{@current_player.mark}'s turn. Choose a position (1-9):"
+      position = gets.chomp.to_i
+
+      if @board.make_move(position, @current_player)
+        @current_player = switch_player(@current_player)
+      else
+        puts "Invalid move. Please try again."
+      end
+    end
+
+    @board.display
+    if @board.check_win(@current_player)
+      puts "#{@current_player.mark} wins!"
+    else
+      puts "It's a draw!"
+    end
+  end
+
+  def switch_player(current_player)
+    other_player = @players.find { |player| player != current_player }
+  end
 end
 
-board = Board.new
-board.display
+game = Game.new
+game.play
