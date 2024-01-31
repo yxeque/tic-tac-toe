@@ -23,6 +23,31 @@ class Board
   def valid_move?(position)
     (1..9).include?(position) && @cells[(position - 1) / 3][(position - 1) % 3].nil?
   end
+
+  def check_win(player)
+    rows.any? { |row| row.all? { |cell| cell == player.mark } } ||
+      columns.any? { |column| column.all? { |cell| cell == player.mark } } ||
+      diagonals.any? { |diagonal| diagonal.all? { |cell| cell == player.mark } }
+  end
+
+  def check_draw
+    @cells.flatten.none? { |cell| cell.nil? }
+  end
+
+  def rows
+    @cells
+  end
+
+  def columns
+    @cells.transpose
+  end
+
+  def diagonals
+    [
+      [@cells[0][0], @cells[1][1], @cells[2][2]],
+      [@cells[0][2], @cells[1][1], @cells[2][0]]
+    ]
+  end
 end
 
 class Player
