@@ -2,6 +2,12 @@ class Board
   def initialize
     @cells = Array.new(3) { Array.new(3) { nil } }
   end
+
+  def display
+    @cells.each do |row|
+      puts row.join(" | ")
+    end
+  end
 end
 
 class Player
@@ -14,3 +20,6 @@ class Game
     @current_player = @players.first
   end
 end
+
+board = Board.new
+board.display
